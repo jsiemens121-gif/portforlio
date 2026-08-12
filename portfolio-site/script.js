@@ -94,16 +94,37 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  /* Contact form (front-end only placeholder) */
+  /* Contact form — submits to Netlify Forms via AJAX so the page doesn't reload */
   const form = document.querySelector(".contact-form");
   if (form) {
+    const encode = (data) =>
+      Object.keys(data)
+        .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const status = form.querySelector(".form-status");
-      if (status) {
-        status.textContent = "This form is a placeholder — connect it to an email service or backend to receive messages.";
-        status.classList.add("is-shown");
-      }
+      const formData = new FormData(form);
+
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode(Object.fromEntries(formData)),
+      })
+        .then(() => {
+          if (status) {
+            status.textContent = "Thanks — your message has been sent.";
+            status.classList.add("is-shown");
+          }
+          form.reset();
+        })
+        .catch(() => {
+          if (status) {
+            status.textContent = "Something went wrong sending that. Please try again or email directly.";
+            status.classList.add("is-shown");
+          }
+        });
     });
   }
 });

@@ -55,7 +55,11 @@
 
     <!-- FORM -->
     <div class="reveal reveal-delay-1">
-      <form class="contact-form" novalidate>
+      <form class="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="contact">
+        <p style="position: absolute; left: -9999px;" aria-hidden="true">
+          <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+        </p>
         <div class="field">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" placeholder="Your full name" required>
@@ -73,7 +77,7 @@
           <textarea id="message" name="message" rows="5" placeholder="Tell me a bit about your project..." required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Send message</button>
-        <p class="form-note">Placeholder form — connect to an email service (e.g. Formspree, EmailJS) or your own backend to make it functional.</p>
+        <p class="form-note">Messages are delivered straight to your Netlify dashboard — no third-party service needed.</p>
         <p class="form-status" role="status"></p>
       </form>
     </div>

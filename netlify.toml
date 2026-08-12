@@ -1,0 +1,4 @@
+[build]
+  base = "portfolio-site"
+  publish = "portfolio-site"
+  command = ""
